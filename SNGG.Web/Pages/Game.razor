@@ -1,0 +1,13 @@
+﻿@page "/game"
+
+<PageTitle>Sailor number guessing game</PageTitle>
+
+
+
+<button class="btn btn-primary" @onclick="CheckGuess">Check guess</button>
+<p role="status">Ships: @ships</p>
+<p role="status">Buoys: @buoys</p>
+@if (success)
+{
+    <p>Alles is goed! Gefeliciteerd</p>
+}

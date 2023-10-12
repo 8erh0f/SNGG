@@ -4,7 +4,6 @@ using SNGG.Services;
 
 namespace SNGG.Web.Api
 {
-    // [Authorize(AuthenticationSchemes = "API_Key")]
     public class CalculateController : ApiControllerBase
     {
         private readonly ICalculateService _calculateService;

@@ -2,6 +2,7 @@
 
 namespace SNGG.Web.Api;
 
+// [Authorize(AuthenticationSchemes = "API_Key")]
 [Route("api/[controller]")]
 [DisableRequestSizeLimit]
 [ApiController]
