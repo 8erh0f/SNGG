@@ -22,7 +22,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<ICheckGuessService, CheckGuessService>();
 builder.Services.AddSingleton<ICalculateService, CalculateService>();
 
-var connectionstring = "Server=.\\HansTT;Database=SNGGDb;Trusted_Connection=True;MultipleActiveResultSets=True";
+var connectionstring = "Server=SUBTOPHANS\\TT;Database=SNGGDb;Integrated Security=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=4800;Application Name=SNGGHans;";
 builder.Services.AddDbContextFactory<SNGGContext>(options =>
             options.UseSqlServer(connectionstring,
               options => options.MinBatchSize(1).CommandTimeout(3600).MaxBatchSize(200).EnableRetryOnFailure(3)), ServiceLifetime.Singleton);
@@ -52,34 +52,3 @@ app.MapFallbackToPage("/_Host");
 //app.ConfigureEndpoints();
 
 app.Run();
-
-
-//namespace SNGG.Web;
-//public class Program
-//{
-//    public async static Task Main(string[] args)
-//    {
-//        using (var host = CreateHostBuilder(args).Build())
-//        {
-//            await host.RunAsync();
-//        }
-//    }
-
-//    private static IHostBuilder CreateHostBuilder(string[] args)
-//    {
-//        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-//        if (string.IsNullOrEmpty(env))
-//        {
-//            throw new Exception("ASPNETCORE_ENVIRONMENT not set.");
-//        }
-//        var retVal = Host.CreateDefaultBuilder(args)
-//            .UseEnvironment(env) //https://docs.microsoft.com/en-us/visualstudio/test/configure-unit-tests-by-using-a-dot-runsettings-file?branch=release-16.4&view=vs-2019
-//                    .ConfigureAppConfiguration((hostingContext, config) =>
-//                    {
-//                        config.SetBasePath(Directory.GetCurrentDirectory());
-//                        config.AddJsonFile($"appsettings.{env}.json", optional: false, true);
-//                        var builtConfig = config.Build();
-//                    });
-//        return retVal;
-//    }
-//}

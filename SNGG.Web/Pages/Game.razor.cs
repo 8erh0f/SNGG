@@ -4,23 +4,35 @@ using SNGG.Services;
 
 namespace SNGG.Web.Pages
 {
-    public partial class Game
+    public partial class GameComponent : ComponentBase
     {
         [Inject]
-        protected ICheckGuessService? CheckGuessService { get; set; }
+        protected ICheckGuessService CheckGuessService { get; set; }
 
+        //[Parameter]
+        //public PlayerGameDataDto PlayerGameData { get; set; } = new();
         [Parameter]
-        public PlayerGameDataDto? PlayerGameData { get; set; }
+        public string PlayerName { get; set; }
+        [Parameter]
+        public string DateOfBirth { get; set; }
+        [Parameter]
+        public int NrOfDigits { get; set; }
+        public int GameId { get; set; }
+        
+
 
         protected int ships;
         protected int buoys;
         protected DateTime entryTime;
         protected DateTime previousEntryTime;
-        protected string? playerName;
-        protected string? dateOfBirth;
+
+       
+
+
         protected bool success;
 
-        protected Dictionary<int, string> actualNumbers = new();
+        protected Dictionary<int, string> ActualNumbers { get; set; } = new();
+        protected Dictionary<int, string> GuessedNumbers { get; set; } = new();
 
         protected override void OnInitialized()
         {
@@ -30,38 +42,68 @@ namespace SNGG.Web.Pages
         protected override void OnParametersSet()
         {
             previousEntryTime = DateTime.Now;
-            // TODO: voor testen
-            PlayerGameData ??= new PlayerGameDataDto { DateOfBirth = new DateOnly(1969, 12, 24), NrOfDigits = 4, PlayerName = "Hans" };
 
-            if (PlayerGameData is not null)
+            InitActualNumbers();
+            InitGuessedNumbers();
+
+            //if (PlayerGameData is not null)
+            //{
+            //    ActualNumbers = new();
+            //    GuessedNumbers = new();
+
+            //    PlayerName = PlayerGameData.PlayerName;
+            //    DateOfBirth = PlayerGameData.DateOfBirth.ToString("dd-MM-yyyy");
+            //    for (int i = 1; i < PlayerGameData.NrOfDigits + 1; i++)
+            //    {
+            //        ActualNumbers.Add(i, GetRandomNumberAsString());
+            //        GuessedNumbers.Add(i, "");
+            //    }
+            //}
+        }
+
+        private void InitActualNumbers()
+        {
+            ActualNumbers = new();
+            for (int i = 1; i < NrOfDigits + 1; i++)
             {
-                playerName = PlayerGameData.PlayerName;
-                dateOfBirth = PlayerGameData.DateOfBirth.ToString("dd-MM-yyyy");
-                for (int i = 1; i < PlayerGameData.NrOfDigits + 1; i++)
-                {
-                    actualNumbers.Add(i, GetRandomNumberAsString());
-                }
+                ActualNumbers.Add(i, GetRandomNumberAsString());
             }
+        }
+
+        private void InitGuessedNumbers()
+        {
+            GuessedNumbers = new();
+            for (int i = 1; i < NrOfDigits + 1; i++)
+            {
+                GuessedNumbers.Add(i, "");
+            }
+        }
+
+        private Dictionary<int, string> CloneDictionary(Dictionary<int, string> toCloneDict)
+        {
+            var retVal = new Dictionary<int, string>();
+            foreach (var item in toCloneDict)
+            {
+                retVal.Add(item.Key,item.Value);
+            }
+            return retVal;
         }
 
         protected void CheckGuess()
         {
             entryTime = DateTime.Now;
-            var EntrySpeed = (previousEntryTime - entryTime).TotalMilliseconds;
+            var EntrySpeed = (entryTime - previousEntryTime).TotalMilliseconds;
             previousEntryTime = entryTime;
-            // TODO: hier uit scherm vullen
-            var quessedNumbers = new Dictionary<int, string> { { 1, "9" }, { 2, "5" }, { 3, "8" }, { 4, "1" } };
-
-            var result = CheckGuessService?.CheckGuessed(quessedNumbers, actualNumbers);
+            var result = CheckGuessService?.CheckGuessed(CloneDictionary(GuessedNumbers), ActualNumbers);
             if (result is not null)
             {
                 ships = result.Item1;
                 buoys = result.Item2;
             }
-            if (ships == PlayerGameData?.NrOfDigits)
+            if (ships == NrOfDigits)
                 success = true;
 
-            StateHasChanged();
+            //StateHasChanged();
         }
 
         private static string GetRandomNumberAsString()
@@ -70,5 +112,10 @@ namespace SNGG.Web.Pages
             int rInt = r.Next(0, 9);
             return rInt.ToString();
         }
+
+        //protected void OnInputDigit(ChangeEventArgs args, int index)
+        //{
+        //    GuessedNumbers[index] = args.Value.ToString();
+        //}
     }
 }

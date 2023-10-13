@@ -1,2 +1,23 @@
 ﻿@page "/player"
+@inherits PlayerComponent
+
 <h3>Vul je gegevens hier in</h3>
+<div>
+    Player name: <input type="text" @bind-value="PlayerGameData.PlayerName" />
+    Player date of birth: <input type="text" @bind-value="PlayerGameData.DateOfBirth" />
+    Number of digits: <input type="text" @bind-value="PlayerGameData.NrOfDigits" />
+</div>
+
+<br />
+<button class="btn btn-primary" @onclick="PlayGame" >Start Game</button>
+<br />
+<br />
+<br />
+
+@* <div>
+    @if (PlayerGameData is not null && !PlayerGameData.IsEmpty() && ReadyToPlayGame)
+    {
+        <Game PlayerGameData="PlayerGameData" />
+    }
+</div> *@
+

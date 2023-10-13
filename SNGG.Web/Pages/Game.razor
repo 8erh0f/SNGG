@@ -1,10 +1,25 @@
-﻿@page "/game"
+﻿@page "/game/{NrOfDigits:int}/{PlayerName}/{DateOfBirth}"
+@inherits GameComponent
 
 <PageTitle>Sailor number guessing game</PageTitle>
 
+<p>Game id: @GameId</p>
+<p>Player name: @PlayerName</p>
+<p>Player date of birth: @DateOfBirth</p>
 
-
+<div>
+    @for (int i = 1; i < NrOfDigits + 1; i++)
+    {
+        var id = i;
+        <input id="id" @bind-value="GuessedNumbers[id]"/>
+        @* <input id="id" @onchange="@((args) => OnInputDigit(args, id))" /> *@
+    }
+</div>
+<br />
 <button class="btn btn-primary" @onclick="CheckGuess">Check guess</button>
+<br />
+<br />
+
 <p role="status">Ships: @ships</p>
 <p role="status">Buoys: @buoys</p>
 @if (success)

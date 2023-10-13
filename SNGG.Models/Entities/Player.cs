@@ -10,7 +10,7 @@ namespace SNGG.Models.Entities
     {
         [Required]
         [Column(TypeName = "date")]
-        public DateOnly DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Required]
         [Column(TypeName = "varchar"), MaxLength(64, ErrorMessage = "PlayerName is te lang")]
