@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using SNGG.Models.Dto;
+using SNGG.Models.Entities;
 using SNGG.Services;
 
 namespace SNGG.Web.Pages
@@ -9,6 +9,9 @@ namespace SNGG.Web.Pages
         [Inject]
         protected ICheckGuessService CheckGuessService { get; set; }
 
+        [Inject]
+        protected ISNGGContextService SNGGContextService { get; set; }
+
         //[Parameter]
         //public PlayerGameDataDto PlayerGameData { get; set; } = new();
         [Parameter]
@@ -17,17 +20,13 @@ namespace SNGG.Web.Pages
         public string DateOfBirth { get; set; }
         [Parameter]
         public int NrOfDigits { get; set; }
+        [Parameter]
         public int GameId { get; set; }
-        
-
 
         protected int ships;
         protected int buoys;
         protected DateTime entryTime;
         protected DateTime previousEntryTime;
-
-       
-
 
         protected bool success;
 
@@ -84,7 +83,7 @@ namespace SNGG.Web.Pages
             var retVal = new Dictionary<int, string>();
             foreach (var item in toCloneDict)
             {
-                retVal.Add(item.Key,item.Value);
+                retVal.Add(item.Key, item.Value);
             }
             return retVal;
         }
@@ -92,7 +91,8 @@ namespace SNGG.Web.Pages
         protected void CheckGuess()
         {
             entryTime = DateTime.Now;
-            var EntrySpeed = (entryTime - previousEntryTime).TotalMilliseconds;
+            //var EntrySpeed = (entryTime - previousEntryTime).TotalMilliseconds;
+            var EntrySpeed = entryTime.Subtract(previousEntryTime).TotalMilliseconds;
             previousEntryTime = entryTime;
             var result = CheckGuessService?.CheckGuessed(CloneDictionary(GuessedNumbers), ActualNumbers);
             if (result is not null)
@@ -102,6 +102,15 @@ namespace SNGG.Web.Pages
             }
             if (ships == NrOfDigits)
                 success = true;
+
+            var newGuess = new Guess
+            {
+                Buoys = buoys,
+                Ships = ships,
+                GameId = GameId,
+                GuessTime = EntrySpeed
+            };
+            SNGGContextService.AddGuess(newGuess);
 
             //StateHasChanged();
         }

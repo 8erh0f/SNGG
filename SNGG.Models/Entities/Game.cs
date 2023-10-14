@@ -15,6 +15,6 @@ namespace SNGG.Models.Entities
 
         [ForeignKey(nameof(PlayerId))]
         [JsonIgnore]
-        public required virtual Player Player { get; set; }
+        public virtual Player Player { get; set; }
     }
 }

@@ -1,13 +1,18 @@
-﻿using SNGG.Models.Dto;
+﻿using Microsoft.EntityFrameworkCore;
+using SNGG.DataAccess;
+using SNGG.Models.Dto;
+using SNGG.Models.Entities;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace SNGG.Services
 {
     public interface ICalculateService
     {
-        List<GuessesPerDigitCountDto> CalculateAverageGuessesPerDigitCount();
-        List<GuessesPerDigitCountDto> CalculateMeanGuessesPerDigitCount();
-        List<GuessesPerDigitCountDto> CalculateMinGuessesPerDigitCount();
-        List<GuessesPerDigitCountDto> CalculateMaxGuessesPerDigitCount();
+        Task<List<GuessesPerDigitCountDto>> CalculateAverageGuessesPerDigitCountAsync();
+        Task<List<GuessesPerDigitCountDto>> CalculateMeanGuessesPerDigitCountAsync();
+        Task<List<GuessesPerDigitCountDto>> CalculateMinGuessesPerDigitCountAsync();
+        Task<List<GuessesPerDigitCountDto>> CalculateMaxGuessesPerDigitCountAsync();
         int CalculateAverageEntrySpeed();
         int CalculateMeanEntrySpeed();
         int CalculateMinEntrySpeed();
@@ -17,31 +22,53 @@ namespace SNGG.Services
     }
     public class CalculateService : ICalculateService
     {
-        public List<GuessesPerDigitCountDto> CalculateAverageGuessesPerDigitCount()
-        {
-            var retVal = new List<GuessesPerDigitCountDto>();
+        private readonly SNGGContext _context;
 
+        public CalculateService(SNGGContext context)
+        {
+            _context = context;
+        }
+
+        private static string GetSqlString(string action)
+        {
+            var sql = @$"SELECT	{action}(GU.aantal) Guesses	
+                        ,		NrOfDigits DigitCount
+                        FROM	[dbo].[Games] GA
+                        ,
+		                        (
+		                        SELECT	COUNT(Id) aantal
+		                        ,		[GameId]
+		                        FROM	[dbo].[Guesses]
+		                        GROUP BY [GameId]
+		                        ) GU
+                        WHERE	GU.GameId = Ga.Id 
+                        GROUP BY NrOfDigits";
+
+            return sql;
+        }
+
+        public async Task<List<GuessesPerDigitCountDto>> CalculateAverageGuessesPerDigitCountAsync()
+        {
+            var retVal = await _context.GuessesPerDigitCountDtos.FromSqlRaw(GetSqlString("AVG")).ToListAsync();
             return retVal;
         }
 
-        public List<GuessesPerDigitCountDto> CalculateMeanGuessesPerDigitCount()
+        public async Task<List<GuessesPerDigitCountDto>> CalculateMeanGuessesPerDigitCountAsync()
         {
-            var retVal = new List<GuessesPerDigitCountDto>();
+            //var retVal = await _context.GuessesPerDigitCountDtos.FromSqlRaw(GetSqlString("MEAN")).ToListAsync();
+            //return retVal;
+            return default;
+        }
 
+        public async Task<List<GuessesPerDigitCountDto>> CalculateMinGuessesPerDigitCountAsync()
+        {
+            var retVal = await _context.GuessesPerDigitCountDtos.FromSqlRaw(GetSqlString("MIN")).ToListAsync();
             return retVal;
         }
 
-        public List<GuessesPerDigitCountDto> CalculateMinGuessesPerDigitCount()
+        public async Task<List<GuessesPerDigitCountDto>> CalculateMaxGuessesPerDigitCountAsync()
         {
-            var retVal = new List<GuessesPerDigitCountDto>();
-
-            return retVal;
-        }
-
-        public List<GuessesPerDigitCountDto> CalculateMaxGuessesPerDigitCount()
-        {
-            var retVal = new List<GuessesPerDigitCountDto>();
-
+            var retVal = await _context.GuessesPerDigitCountDtos.FromSqlRaw(GetSqlString("MAX")).ToListAsync();
             return retVal;
         }
 

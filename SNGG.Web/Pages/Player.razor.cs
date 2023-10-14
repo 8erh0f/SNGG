@@ -10,15 +10,31 @@ namespace SNGG.Web.Pages
         protected ICheckGuessService CheckGuessService { get; set; }
 
         [Inject]
+        protected ISNGGContextService SNGGContextService { get; set; }
+
+        [Inject]
         protected NavigationManager UriHelper { get; set; }
 
         public PlayerGameDataDto PlayerGameData { get; set; } = new();
 
-        public string PlayerName { get; set; }
-
         protected void PlayGame()
         {
-            UriHelper.NavigateTo($"/game/{PlayerGameData.NrOfDigits}/{PlayerGameData.PlayerName}/{PlayerGameData.DateOfBirth}");
+            // save player info
+            var player = new Models.Entities.Player
+            {
+                PlayerName = PlayerGameData.PlayerName,
+                DateOfBirth = PlayerGameData.DateOfBirth
+            };
+            SNGGContextService.AddPlayer(player);
+            // save game
+            var gameId = SNGGContextService.AddGame(new Models.Entities.Game 
+            { 
+                NrOfDigits = PlayerGameData.NrOfDigits,
+                //Player = player,
+                PlayerId = player.Id
+            });
+
+            UriHelper.NavigateTo($"/game/{gameId}/{PlayerGameData.NrOfDigits}/{PlayerGameData.PlayerName}/{PlayerGameData.DateOfBirth}");
         }
     }
 }

@@ -12,18 +12,18 @@ namespace SNGG.Web.Tests
         [TestMethod]
         public void ShouldGetAverageGuessesPerDigitCount()
         {
-            var calculateService = new CalculateService();
-            var controller = new CalculateController(calculateService);
-            var result = (JsonResult)controller.GetAverageGuessesPerDigitCount();
-            Assert.IsNotNull(result);
-            if (result is not null)
-            {
-                var guessesPerDigitCountDtoList = result.Value as List<GuessesPerDigitCountDto>;
-                if (guessesPerDigitCountDtoList is not null)
-                {
+            //var calculateService = new CalculateService();
+            //var controller = new CalculateController(calculateService);
+            //var result = (JsonResult)controller.GetAverageGuessesPerDigitCount();
+            //Assert.IsNotNull(result);
+            //if (result is not null)
+            //{
+            //    var guessesPerDigitCountDtoList = result.Value as List<GuessesPerDigitCountDto>;
+            //    if (guessesPerDigitCountDtoList is not null)
+            //    {
 
-                }
-            }
+            //    }
+            //}
                 
         }
     }

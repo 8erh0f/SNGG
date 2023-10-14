@@ -10,16 +10,17 @@ namespace SNGG.Models.Entities
         public int Ships { get; set; }
         public int Buoys { get; set; }
 
+        [Column(TypeName = "bigint")]
         /// <summary>
         /// Time between guesses in milliseconds
         /// </summary>
-        public int GuessTime { get; set; }
+        public double GuessTime { get; set; }
 
         [Required]
         public int GameId { get; set; }
 
         [ForeignKey(nameof(GameId))]
         [JsonIgnore]
-        public required virtual Game Game { get; set; }
+        public virtual Game Game { get; set; }
     }
 }

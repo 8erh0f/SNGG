@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SNGG.DataAccess.Configurations;
+using SNGG.Models.Dto;
 using SNGG.Models.Entities;
 
 namespace SNGG.DataAccess
@@ -13,9 +15,11 @@ namespace SNGG.DataAccess
         public required DbSet<Guess> Guesses { get; set; }
         public required DbSet<Player> Players { get; set; }
 
+        public virtual DbSet<GuessesPerDigitCountDto> GuessesPerDigitCountDtos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            modelBuilder.ApplyConfiguration(new GuessesPerDigitCountDtoConfiguration());
         }
     }
 }

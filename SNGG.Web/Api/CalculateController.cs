@@ -14,39 +14,33 @@ namespace SNGG.Web.Api
         }
 
         [HttpGet("/AverageGuessesPerDigitCount")]
-        public IActionResult GetAverageGuessesPerDigitCount()
+        public async Task<IActionResult> GetAverageGuessesPerDigitCountAsync()
         {
             var retVal = new List<GuessesPerDigitCountDto>();
             try
             {
-                retVal = _calculateService.CalculateAverageGuessesPerDigitCount();
-                retVal = new List<GuessesPerDigitCountDto> // TODO: moet nog weg
-                {
-                    new GuessesPerDigitCountDto{DigitCount = 4, Guesses = 100 },
-                    new GuessesPerDigitCountDto{DigitCount = 5, Guesses = 250 },
-                    new GuessesPerDigitCountDto{DigitCount = 6, Guesses = 315 },
-                };
+                retVal = await _calculateService.CalculateAverageGuessesPerDigitCountAsync();
+                //retVal = new List<GuessesPerDigitCountDto> // TODO: moet nog weg
+                //{
+                //    new GuessesPerDigitCountDto{DigitCount = 4, Guesses = 100 },
+                //    new GuessesPerDigitCountDto{DigitCount = 5, Guesses = 250 },
+                //    new GuessesPerDigitCountDto{DigitCount = 6, Guesses = 315 },
+                //};
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Fout in {nameof(GetAverageGuessesPerDigitCount)}, {ex.Message}");
+                return StatusCode(500, $"Fout in {nameof(GetAverageGuessesPerDigitCountAsync)}, {ex.Message}");
             }
             return Json(retVal);
         }
 
         [HttpGet("/MaxGuessesPerDigitCount")]
-        public IActionResult GetMaxGuessesPerDigitCount()
+        public async Task<IActionResult> GetMaxGuessesPerDigitCount()
         {
             var retVal = new List<GuessesPerDigitCountDto>();
             try
             {
-                retVal = _calculateService.CalculateMaxGuessesPerDigitCount();
-                retVal = new List<GuessesPerDigitCountDto> // TODO: moet nog weg
-                {
-                    new GuessesPerDigitCountDto{DigitCount = 4, Guesses = 1000 },
-                    new GuessesPerDigitCountDto{DigitCount = 5, Guesses = 2500 },
-                    new GuessesPerDigitCountDto{DigitCount = 6, Guesses = 3150 },
-                };
+                retVal = await _calculateService.CalculateMaxGuessesPerDigitCountAsync();
             }
             catch (Exception ex)
             {
@@ -56,18 +50,12 @@ namespace SNGG.Web.Api
         }
 
         [HttpGet("/MinGuessesPerDigitCount")]
-        public IActionResult GetMinGuessesPerDigitCount()
+        public async Task<IActionResult>  GetMinGuessesPerDigitCount()
         {
             var retVal = new List<GuessesPerDigitCountDto>();
             try
             {
-                retVal = _calculateService.CalculateMinGuessesPerDigitCount();
-                retVal = new List<GuessesPerDigitCountDto> // TODO: moet nog weg
-                {
-                    new GuessesPerDigitCountDto{DigitCount = 4, Guesses = 50 },
-                    new GuessesPerDigitCountDto{DigitCount = 5, Guesses = 150 },
-                    new GuessesPerDigitCountDto{DigitCount = 6, Guesses = 201 },
-                };
+                retVal = await _calculateService.CalculateMinGuessesPerDigitCountAsync();
             }
             catch (Exception ex)
             {

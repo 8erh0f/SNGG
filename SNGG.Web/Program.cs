@@ -19,8 +19,12 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddSingleton<ICheckGuessService, CheckGuessService>();
-builder.Services.AddSingleton<ICalculateService, CalculateService>();
+
+builder.Services.AddScoped<ICheckGuessService, CheckGuessService>();
+builder.Services.AddScoped<ICalculateService, CalculateService>();
+
+builder.Services.AddScoped<ISNGGContextService, SNGGContextService>();
+
 
 var connectionstring = "Server=SUBTOPHANS\\TT;Database=SNGGDb;Integrated Security=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=4800;Application Name=SNGGHans;";
 builder.Services.AddDbContextFactory<SNGGContext>(options =>
