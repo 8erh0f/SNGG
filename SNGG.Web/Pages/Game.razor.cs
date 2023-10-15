@@ -92,7 +92,7 @@ namespace SNGG.Web.Pages
         {
             entryTime = DateTime.Now;
             //var EntrySpeed = (entryTime - previousEntryTime).TotalMilliseconds;
-            var EntrySpeed = entryTime.Subtract(previousEntryTime).TotalMilliseconds;
+            var EntrySpeed = (int)entryTime.Subtract(previousEntryTime).TotalMilliseconds;
             previousEntryTime = entryTime;
             var result = CheckGuessService?.CheckGuessed(CloneDictionary(GuessedNumbers), ActualNumbers);
             if (result is not null)

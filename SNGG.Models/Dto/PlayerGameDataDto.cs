@@ -15,5 +15,14 @@
                 return true;
             return false;
         }
+
+        public bool IsComplete()
+        {
+            if (!string.IsNullOrWhiteSpace(PlayerName)
+                && DateOfBirth != default
+                && NrOfDigits >= 4 && NrOfDigits <= 8)
+                return true;
+            return false;
+        }
     }
 }

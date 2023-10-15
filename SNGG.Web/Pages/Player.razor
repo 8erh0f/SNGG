@@ -5,12 +5,16 @@
 <div>
     Player name: <input type="text" @bind-value="PlayerGameData.PlayerName" />
     Player date of birth: <input type="text" @bind-value="PlayerGameData.DateOfBirth" />
-    Number of digits: <input type="text" @bind-value="PlayerGameData.NrOfDigits" />
+    Number of digits: <input type="text" @bind-value="PlayerGameData.NrOfDigits" maxlength="1" />
 </div>
 
 <br />
-<button class="btn btn-primary" @onclick="PlayGame" >Start Game</button>
-<br />
+@if (PlayerGameData.IsComplete())
+{
+    <button class="btn btn-primary" @onclick="PlayGame">Start Game</button>
+    <br />
+}
+
 <br />
 <br />
 

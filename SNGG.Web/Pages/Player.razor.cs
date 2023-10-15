@@ -19,22 +19,25 @@ namespace SNGG.Web.Pages
 
         protected void PlayGame()
         {
-            // save player info
-            var player = new Models.Entities.Player
+            if (PlayerGameData.IsComplete())
             {
-                PlayerName = PlayerGameData.PlayerName,
-                DateOfBirth = PlayerGameData.DateOfBirth
-            };
-            SNGGContextService.AddPlayer(player);
-            // save game
-            var gameId = SNGGContextService.AddGame(new Models.Entities.Game 
-            { 
-                NrOfDigits = PlayerGameData.NrOfDigits,
-                //Player = player,
-                PlayerId = player.Id
-            });
+                // save player info
+                var player = new Models.Entities.Player
+                {
+                    PlayerName = PlayerGameData.PlayerName,
+                    DateOfBirth = PlayerGameData.DateOfBirth
+                };
+                SNGGContextService.AddPlayer(player);
+                // save game
+                var gameId = SNGGContextService.AddGame(new Models.Entities.Game
+                {
+                    NrOfDigits = PlayerGameData.NrOfDigits,
+                    //Player = player,
+                    PlayerId = player.Id
+                });
 
-            UriHelper.NavigateTo($"/game/{gameId}/{PlayerGameData.NrOfDigits}/{PlayerGameData.PlayerName}/{PlayerGameData.DateOfBirth}");
+                UriHelper.NavigateTo($"/game/{gameId}/{PlayerGameData.NrOfDigits}/{PlayerGameData.PlayerName}/{PlayerGameData.DateOfBirth}");
+            }
         }
     }
 }

@@ -40,7 +40,7 @@ namespace SNGG.DataAccess.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
                 });
 
             modelBuilder.Entity("SNGG.Models.Entities.Guess", b =>
@@ -57,8 +57,8 @@ namespace SNGG.DataAccess.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("int");
 
-                    b.Property<long>("GuessTime")
-                        .HasColumnType("bigint");
+                    b.Property<int>("GuessTime")
+                        .HasColumnType("int");
 
                     b.Property<int>("Ships")
                         .HasColumnType("int");
@@ -67,7 +67,7 @@ namespace SNGG.DataAccess.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Guesses");
+                    b.ToTable("Guesses", (string)null);
                 });
 
             modelBuilder.Entity("SNGG.Models.Entities.Player", b =>
@@ -91,7 +91,7 @@ namespace SNGG.DataAccess.Migrations
                     b.HasIndex("DateOfBirth", "PlayerName")
                         .IsUnique();
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
                 });
 
             modelBuilder.Entity("SNGG.Models.Entities.Game", b =>

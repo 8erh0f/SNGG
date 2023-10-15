@@ -11,7 +11,7 @@
     @for (int i = 1; i < NrOfDigits + 1; i++)
     {
         var id = i;
-        <input id="id" @bind-value="GuessedNumbers[id]"/>
+        <input id="id" @bind-value="GuessedNumbers[id]" maxlength="1"/>
         @* <input id="id" @onchange="@((args) => OnInputDigit(args, id))" /> *@
     }
 </div>
