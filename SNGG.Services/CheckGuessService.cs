@@ -30,19 +30,15 @@
                 if (guessedNumbers.ContainsValue(actualValue))
                 {
                     buoys++;
-                    // kijk dan of het nummer ook op de juiste plek staat
-                    //actualNumbers.All(e => guessedNumbers.Contains(e)); // IEquatable gaat goed?
 
-                    if (guessedNumbers.TryGetValue(actualKey, out var quessedValue))
+                    var guessedKey = guessedNumbers.FirstOrDefault(n => n.Value == actualValue).Key;
+                    if (guessedKey == actualKey)
                     {
-                        if (quessedValue == actualValue)
-                        {
-                            ships++;
-                            buoys--;
-                            //guessedNumbers.Remove(actualKey); // deze niet meer gebruiken, die is goed
-                        }
+                        ships++;
+                        buoys--;
                     }
-                    guessedNumbers.Remove(actualKey); // deze niet meer gebruiken
+                    guessedNumbers.Remove(guessedKey); // deze niet meer gebruiken
+
                 }
             }
             return new Tuple<int, int>(ships, buoys);

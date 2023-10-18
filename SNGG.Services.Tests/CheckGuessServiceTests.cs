@@ -54,7 +54,14 @@ namespace SNGG.Services.Tests
             actualNumbers = new Dictionary<int, string> { { 1, "1" }, { 2, "2" }, { 3, "3" }, { 4, "4" }, { 5, "1" } };
             quessedNumbers = new Dictionary<int, string> { { 1, "1" }, { 2, "2" }, { 3, "3" }, { 4, "1" }, { 5, "4" } };
             actualResult = _checkQuessService.CheckGuessed(quessedNumbers, actualNumbers);
-            expectedResult = new Tuple<int, int>(2, 1);
+            expectedResult = new Tuple<int, int>(3, 2);
+            Assert.AreEqual(actualResult.Item1, expectedResult.Item1);
+            Assert.AreEqual(actualResult.Item2, expectedResult.Item2);
+
+            actualNumbers = new Dictionary<int, string> { { 1, "1" }, { 2, "1" }, { 3, "4" }, { 4, "1" }, { 5, "1" } };
+            quessedNumbers = new Dictionary<int, string> { { 1, "1" }, { 2, "1" }, { 3, "3" }, { 4, "1" }, { 5, "4" } };
+            actualResult = _checkQuessService.CheckGuessed(quessedNumbers, actualNumbers);
+            expectedResult = new Tuple<int, int>(3, 1);
             Assert.AreEqual(actualResult.Item1, expectedResult.Item1);
             Assert.AreEqual(actualResult.Item2, expectedResult.Item2);
         }
