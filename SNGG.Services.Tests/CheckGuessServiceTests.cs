@@ -6,8 +6,7 @@ namespace SNGG.Services.Tests
         private ICheckGuessService? _checkQuessService;
 
         [TestMethod]
-        //[DataRow(new Dictionary<int, string> { { 1, "9" }, { 1, "5" }, { 1, "8" }, { 1, "1" } })] werkt niet
-        public void ShouldCheckGuessed(string[] actualNumbersArray, string[] guessedNumbersArray)
+        public void ShouldCheckGuessed()
         {
             _checkQuessService = new CheckGuessService();
             var actualNumbers = new Dictionary<int, string> { { 1, "1" }, { 2, "2" }, { 3, "3" }, { 4, "4" } };
@@ -52,8 +51,8 @@ namespace SNGG.Services.Tests
             Assert.AreEqual(actualResult.Item1, expectedResult.Item1);
             Assert.AreEqual(actualResult.Item2, expectedResult.Item2);
 
-            actualNumbers = new Dictionary<int, string> { { 1, "1" }, { 2, "2" }, { 3, "3" }, { 4, "1" }, { 5, "1" } };
-            quessedNumbers = new Dictionary<int, string> { { 1, "1" }, { 2, "8" }, { 3, "1" }, { 4, "9" }, { 5, "1" } };
+            actualNumbers = new Dictionary<int, string> { { 1, "1" }, { 2, "2" }, { 3, "3" }, { 4, "4" }, { 5, "1" } };
+            quessedNumbers = new Dictionary<int, string> { { 1, "1" }, { 2, "2" }, { 3, "3" }, { 4, "1" }, { 5, "4" } };
             actualResult = _checkQuessService.CheckGuessed(quessedNumbers, actualNumbers);
             expectedResult = new Tuple<int, int>(2, 1);
             Assert.AreEqual(actualResult.Item1, expectedResult.Item1);
